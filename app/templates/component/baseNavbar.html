@@ -1,0 +1,13 @@
+{%macro baseNavbar()%}
+<nav class="navbar navbar-expand-md bg-tertiary border-bottom border-secondary fixed-top">
+  <div class="container-fluid">
+      <a class="navbar-brand " href={{url_for("main.index")}}>Pokedex</a>
+      <div>
+        <a class="btn btn-tertiary" href={{url_for("auth.register")}}>Register</a>
+        <a class="btn btn-primary" href={{url_for("auth.login")}}>Log In</a>
+      </div>
+      </div>
+  </div>
+</nav>
+
+{%endmacro%}

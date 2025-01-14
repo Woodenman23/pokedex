@@ -1,0 +1,32 @@
+{%macro pack_card(data={"id":1,"image":"../static/images/dogs/bulldog.png", "name": "Bowser", "description":"This is a dog"})%}
+  <a class="pack-card my-2" href={{url_for("pack.get", dog_id=data.id)}}>
+    <div class="pack-content">
+      <div class="pack-front">
+        <div>
+          <img src="{{data["image"] or "../static/images/dogs/bulldog.png"}}" class="w-75 h-100" />
+        </div>
+      </div>
+      <div class="pack-back bg-primary d-flex flex-column justify-content-start">
+        <div class="fs-2">
+          {{data["name"]}}
+        </div>
+        <p> {{data["description"]}}</p>
+        <div class="text-left py-2 w-75">
+          <div class="d-flex justify-content-between">
+            <p class=" text-start"><span>Strength:</span></p>
+            <p class=" text-end">10</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class=" text-start"><span>Strength:</span></p>
+            <p class=" text-end">10</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class=" text-start"><span>Strength:</span></p>
+            <p class=" text-end">10</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+
+{%endmacro%}

@@ -1,0 +1,19 @@
+.landing-container{
+  background-image: url("../images/landing/6857106.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 90vh;
+
+}
+
+.landing-title{
+  text-shadow: 0.5px 0.5px 0 #ffff,
+    -0.5px 0.5px 0 #ffff,
+    -0.5px -0.5px 0 #ffff,
+    0.5px -0.5px 0 #ffff;
+}
+
+.landing-card-image{
+  width: 30%;
+  margin: 0 auto;
+}

@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-sm text-center py-4 h-50">
+  <div class="row">
+    <div class="col-md-6">
+      <img
+        src="../static/images/dogs/bulldog.png"
+        class="img-fluid rounded h-50"
+        alt="Picture of a dog"
+      />
+    </div>
+    <div class="col-md-6">
+      <h1 class="fs-1">{{data.name}}</h2>
+      <p>{{data.description}}</p>
+      <ul class="list-group list-group-flush bg-light-tertiary">
+      {% for key, value in attributes.items()  %}
+        <li class="list-group-item bg-light-tertiary">
+          <div class="row ">
+            <div class="col text-start fw-bold">{{key}} </div>
+            <div class="col text-start">{{value}}</div>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "./component/card.html" import pack_card with context%}
+{% block content %}
+
+    <div class="container-sm text-center my-5">
+      <div class = "border-bottom my-2 d-flex justify-content-center">
+        <a href= {{url_for("pack.create")}}><i class="fs-2 text-primary bi px-4 bi-plus-square"></i></a>
+        <a href={{url_for("main.index")}}><i class="fs-2 text-primary px-4 bi bi-search"></i></a>
+      </div>
+      <div class="row justify-content-md-center">
+        {% for dog in pack %}
+         <div class="col-sm">
+
+         {{pack_card(data = dog)}}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+
+
+
+{% endblock content %}

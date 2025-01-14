@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="landing-container">
+  <div class="container-sm mx-auto text-center w-50 py-4 ">
+    <h1 class="landing-title"> JOIN THE FIGHT TO PROTECT THE ENVIRONMENT!</h1>
+    <h3>With the help of your furry friends</h3>
+    <div class="d-flex flex-row">
+        <a href="/auth/register" class="btn btn-primary btn-lg mx-auto my-2">Join the Fight!</a>
+    </div>
+  </div>
+</div>
+
+  <div class = "row justify-content-md-center my-5 mx-2">
+    <div class = "col-sm">
+      <div class="container-sm border border-primary rounded-4 shadow-lg bg-body">
+        <div class="d-flex justify-content-center">
+          <image src ="../static/images/icon/dog1.png" class="img-thumbnail bg-body border border-0 landing-card-image"/>
+        </div>
+        <h2 class="text-center"> Befriend</h2>
+        <p>Find your furry pals pals and add them to your pack</p>
+        <p>The more of them that you find the better your will be at</p>
+        <p> protecting the environment</p>
+
+      </div>
+    </div>
+    <div class = "col-sm">
+      <div class="container-sm border border-primary rounded-4 shadow-lg bg-body h-100">
+      <div class="d-flex justify-content-center">
+        <image src ="../static/images/icon/adventurer.png" class="img-thumbnail bg-body border border-0 landing-card-image"/>
+      </div>
+        <h2 class="text-center">Explore</h2>
+        <p>
+          Explore your local area and see what there is oyt there. Spot new animals and plants
+        </p>
+
+      </div>
+    </div>
+    <div class = "col-sm">
+    <div class="container-sm border border-primary rounded-4 shadow-lg bg-body h-100">
+      <div class="d-flex justify-content-center">
+        <image src ="../static/images/icon/landscape.png" class="img-thumbnail bg-bodyborder border-0 landing-card-image"/>
+      </div>
+        <h2 class="text-center">Defend</h2>
+        <p>There is something here that I would like to say. Lorem Ipsum soemthing to that effettctsnjs</p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

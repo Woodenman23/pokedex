@@ -1,0 +1,23 @@
+{%from "./component/navbar.html" import navbar with context%} {%from
+"./component/baseNavbar.html" import baseNavbar with context%}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - PokeDex</title>
+    {% else %}
+    <title>Pokedex</title>
+    {% endif %}
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="./static/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body class="bg-light-tertiary mh-100vh">
+    {% if current_user.is_authenticated %} {{navbar()}} {% else %}
+    {{baseNavbar()}} {% endif %}
+    <div class="py-5">{% block content %}{% endblock %}</div>
+  </body>
+</html>

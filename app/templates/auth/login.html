@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class = "container mx-auto bg-light p-1 rounded-3  my-5 shadow border border-primary py-2 bg-body">
+  <div class = "mx-auto w-50">
+    <h1 class ="text-center text-primary">Sign In</h1>
+    <p class="text-center"> Explore the natural world around you </p>
+
+    <form action="" method="post" novalidate class="d-flex flex-column justify-content-center">
+        {{ form.hidden_tag() }}
+        <p class="form-floating">
+          {{ form.username(size=32, class_="form-control",id_="username") }}<br>
+          {{ form.username.label(class_="text-primary", for_="username") }}<br>
+            {%for error in form.username.errors%}
+              <span style="color: red;"> {{error}}</span>
+            {%endfor%}
+        </p>
+        <p class="form-floating">
+          {{ form.password(size=32, class_="form-control", id_="password") }}<br>
+          {{ form.password.label(class="text-primary", for_="password") }}<br>
+            {%for error in form.password.errors%}
+              <span style="color: red;"> {{error}}</span>
+            {%endfor %}
+
+        </p>
+        <p>{{ form.remember_me(class_="form-check-input") }} {{ form.remember_me.label(class_="form-check-label") }}</p>
+        <p class="d-flex justify-content-center">{{ form.submit(class_="btn btn-primary btn-lg") }}</p>
+    </form>
+  </div>
+  </div>
+{% endblock content%}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-sm mx-auto bg-light p-1 rounded-3  my-2 shadow border border-primary py-2">
+  <h1 class="text-center">
+    {{title}}
+  </h1>
+
+  <form method="post">
+    {{form.hidden_tag()}}
+    <p>
+      {{form.username.label}}
+      {{form.username(size= 32)}}
+      {% for error in form.username.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{form.email.label}}
+      {{form.email(size= 32)}}
+      {% for error in form.email.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{form.password.label}}
+      {{form.password(size= 32)}}
+      {% for error in form.password.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{form.password2.label}}
+      {{form.password2(size= 32)}}
+      {% for error in form.password2.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{form.submit()}}</p>
+  </form>
+</div>
+{% endblock  %}

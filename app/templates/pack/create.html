@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-sm mx-auto py-4">
+  <div class="w-50 mx-auto">
+    <h2 class="text-center">Add to your pack</h2>
+    <form method="post">
+      {{form.hidden_tag()}}
+      <p class="form-floating">
+        {{ form.name(size=32, class_="form-control",id_="name") }}<br />
+        {{ form.name.label(class_="text-primary", for_="name") }}<br />
+        {%for error in form.name.errors%}
+        <span style="color: red"> {{error}}</span>
+        {%endfor%}
+      </p>
+      <p class="form-floating">
+        {{ form.description(size=32, class_="form-control",id_="description")
+        }}<br />
+        {{ form.description.label(class_="text-primary", for_="description")
+        }}<br />
+        {%for error in form.description.errors%}
+        <span style="color: red"> {{error}}</span>
+        {%endfor%}
+      </p>
+      <p>{{form.submit()}}</p>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
