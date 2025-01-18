@@ -28,10 +28,14 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
+# TODO: clear tables and rebuild models
+
+
 class Pokedex(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(64))
     user_id: so.Mapped[str] = so.mapped_column(sa.ForeignKey(User.id), index=True)
+    # image_path: so.Mapped[str] = so.mapped_column(sa.String(64))
     description: so.Mapped[str] = so.mapped_column(sa.String(512))
     owner: so.Relationship[User] = so.relationship(back_populates="animals")
     attributes: so.WriteOnlyMapped["Attributes"] = so.relationship(

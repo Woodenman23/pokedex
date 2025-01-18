@@ -26,7 +26,7 @@ def create():
         dog = Pokedex(
             name=form.name.data,
             user_id=current_user.id,
-            description=form.description.data,
+            image=form.image.data,
         )
         db.session.add(dog)
         db.session.commit()
