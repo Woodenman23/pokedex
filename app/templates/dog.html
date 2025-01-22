@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+{% block title %} &#128021; &nbsp; DoggyDex {% endblock %} 
+{% block content %}
+<div class="container my-5 p-4 bg-white rounded shadow">
+    <h2>Dog Image</h2>
+    <img src="{{ dog_image }}" alt="Dog Image" height="250"/>
+    <p> {{ results }}</p>
+</div>
+{% endblock %}
+ 

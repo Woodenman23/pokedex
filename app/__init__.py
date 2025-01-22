@@ -4,6 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_assets import Environment, Bundle
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).parent.parent
+MODEL_PATH = Path.home() / "dognet-convnext_large.pth"
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -35,7 +39,7 @@ def create_app(config_class=Config):
 
     app.register_blueprint(main_bp)
 
-    from app.pack import bp as pack_bp
+    from app.pack import pack_bp
 
     app.register_blueprint(pack_bp, url_prefix="/pack")
     return app

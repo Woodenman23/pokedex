@@ -1,14 +1,20 @@
-from app import db
 import sqlalchemy as sa
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
+import torch
+import torchvision.models as models
+
+from PIL import Image
+
+from app import db
 from app.models import Pokedex
-from app.pack import bp
+from app.pack import pack_bp, dog_breeds, num_dog_breeds, transform
 from flask_login import current_user
 from app.pack.forms import AnimalForm
+from app import PROJECT_ROOT, MODEL_PATH
 
 
-@bp.route("/")
-@bp.route("/index")
+@pack_bp.route("/")
+@pack_bp.route("/index")
 def index():
     if current_user.is_authenticated:
         redirect(url_for("main.index"))
@@ -17,20 +23,61 @@ def index():
     return render_template("pack/index.html", pack=pack)
 
 
-@bp.route("/create", methods=["GET", "POST"])
+@pack_bp.route("/create", methods=["GET", "POST"])
 def create():
     if current_user.is_authenticated:
         redirect(url_for("main.index"))
+
     form = AnimalForm()
     if form.validate_on_submit():
-        dog = Pokedex(
-            name=form.name.data,
-            user_id=current_user.id,
-            image=form.image.data,
+        image_file = PROJECT_ROOT / f"app/static/uploads/images/{form.name.data}.jpeg"
+        image = form.image.data
+        image.save(image_file)
+        image = Image.open(str(image_file))
+
+        # run image through identifier
+        model = models.convnext_large(pretrained=True)
+        model.classifier[-1] = torch.nn.Linear(
+            model.classifier[-1].in_features, num_dog_breeds
         )
-        db.session.add(dog)
-        db.session.commit()
-        return redirect(url_for("pack.get", dog_id=dog.id))
+        model.load_state_dict(
+            torch.load(str(MODEL_PATH), map_location=torch.device("cpu"))
+        )
+
+        input_tensor = transform(image).unsqueeze(0)
+
+        model.eval()
+        with torch.no_grad():
+            output = model(input_tensor)
+
+        probabilities = torch.nn.functional.softmax(output, dim=1)
+        top3_probs, top3_indices = torch.topk(probabilities, 3)
+
+        results = ""
+        for i in range(3):
+            results += f"{dog_breeds[top3_indices[0][i].item()][10:]}, Probability: {str(top3_probs[0][i].item() * 100)[:5]}%\n"
+
+        return render_template(
+            "dog.html",
+            dog_image=url_for(
+                "static", filename=f"uploads/images/{form.name.data}.jpeg"
+            ),
+            results=results,
+        )
+
+        # if not, offer alternative breeds
+        # assign attributes
+        # add to db
+
+        # dog = Pokedex(
+        #     name=form.name.data,
+        #     user_id=current_user.id,
+        #     image=form.image.data,
+        # )
+        # db.session.add(dog)
+        # db.session.commit()
+        # return redirect(url_for("pack.get", dog_id=dog.id))
+
     return render_template("pack/create.html", form=form)
 
 
@@ -45,7 +92,7 @@ temp_attributes = {
 }
 
 
-@bp.route("/<int:dog_id>")
+@pack_bp.route("/<int:dog_id>")
 def get(dog_id):
     dog = db.session.scalar(sa.select(Pokedex).where(Pokedex.id == dog_id))
     if dog and dog.owner == current_user:
@@ -54,7 +101,7 @@ def get(dog_id):
     return "<h1> There is nothing here"
 
 
-@bp.route("/<int:dog_id>/update")
+@pack_bp.route("/<int:dog_id>/update")
 def update(dog_id):
     dog = db.session.scalar(sa.select(Pokedex).where(Pokedex.id == dog_id))
     if not dog and not dog.owner == current_user:
@@ -62,7 +109,7 @@ def update(dog_id):
     return "<h1> Unknown dogs <h1>"
 
 
-@bp.route("/<int:dog_id>/delete")
+@pack_bp.route("/<int:dog_id>/delete")
 def delete(dog_id):
     dog = db.session.scalar(sa.select(Pokedex).where(Pokedex.id == dog_id))
     if dog and dog.owner == current_user:
