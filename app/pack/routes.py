@@ -1,16 +1,16 @@
-import sqlalchemy as sa
 from flask import render_template, flash, redirect, url_for, request
+from flask_login import current_user
+import sqlalchemy as sa
 import torch
 import torchvision.models as models
 
 from PIL import Image
 
-from app import db
+from app import db, PROJECT_ROOT, MODEL_PATH
 from app.models import Pokedex
-from app.pack import pack_bp, dog_breeds, num_dog_breeds, transform
-from flask_login import current_user
+from . import pack_bp, dog_breeds, num_dog_breeds, transform
 from app.pack.forms import AnimalForm
-from app import PROJECT_ROOT, MODEL_PATH
+from .wiki import wiki_summary
 
 
 @pack_bp.route("/")
@@ -56,6 +56,11 @@ def create():
         results = ""
         for i in range(3):
             results += f"{dog_breeds[top3_indices[0][i].item()][10:]}, Probability: {str(top3_probs[0][i].item() * 100)[:5]}%\n"
+
+        description = wiki_summary(dog_breeds[top3_indices[0][0].item()][10:])
+        # if not found ask chatgpt for a summary
+
+        db.add(Pokedex())
 
         return render_template(
             "dog.html",

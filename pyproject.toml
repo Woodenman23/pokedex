@@ -14,6 +14,7 @@ flask-assets = "^2.1.0"
 flask-wtf = "^1.2.2"
 email-validator = "^2.2.0"
 torchvision = "^0.20.1"
+wikipedia = "^1.4.0"
 
 
 [build-system]
