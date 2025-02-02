@@ -20,13 +20,14 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     print(app.config["SQLALCHEMY_DATABASE_URI"])
+
     db.init_app(app)
+
     migrate.init_app(app, db)
     login.init_app(app)
     assets = Environment(app)
     scss = Bundle("scss/style.scss", filters="pyscss", output="css/style.css")
     assets.register("scss_all", scss)
-    # print(db.engine)
     from app.auth import bp as auth_bp
 
     app.register_blueprint(auth_bp, url_prefix="/auth")
@@ -42,6 +43,11 @@ def create_app(config_class=Config):
     from app.pack import pack_bp
 
     app.register_blueprint(pack_bp, url_prefix="/pack")
+
+    with app.app_context():
+        # db.drop_all()
+        db.create_all()
+
     return app
 
 

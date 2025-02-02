@@ -16,7 +16,7 @@ from .wiki import wiki_summary
 @pack_bp.route("/")
 @pack_bp.route("/index")
 def index():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated:  # ??
         redirect(url_for("main.index"))
     pack = db.session.scalars(sa.select(Pokedex).where(Pokedex.owner == current_user))
 
@@ -60,14 +60,25 @@ def create():
         description = wiki_summary(dog_breeds[top3_indices[0][0].item()][10:])
         # if not found ask chatgpt for a summary
 
-        db.add(Pokedex())
+        dog_image = url_for("static", filename=f"uploads/images/{form.name.data}.jpeg")
+
+        new_dog = Pokedex(
+            name=form.name.data,
+            image_path=dog_image,
+            user_id=current_user.id,
+            owner=current_user,
+            description=description,
+        )
+
+        db.session.add(new_dog)
+        db.session.commit()
+        flash(f"{form.name.data} added to Pokedex!", "success")
 
         return render_template(
             "dog.html",
-            dog_image=url_for(
-                "static", filename=f"uploads/images/{form.name.data}.jpeg"
-            ),
+            dog_image=dog_image,
             results=results,
+            description=description,
         )
 
         # if not, offer alternative breeds
